@@ -1,0 +1,47 @@
+# k8s/base/backend/deployment.yaml
+# Base Deployment for the Vue.js Backend Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-service
+  labels:
+    app: frontend
+    environment: base
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: drontend
+    spec:
+      containers:
+      - name: frontend-servic
+        # Placeholder image tag - overwritten by Kustomize overlay or ArgoCD
+        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/placeholder-repo:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  labels:
+    app: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80 
+      targetPort: 80
+
