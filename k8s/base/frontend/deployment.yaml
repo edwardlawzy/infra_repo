@@ -18,7 +18,7 @@ spec:
         app: drontend
     spec:
       containers:
-      - name: frontend-servic
+      - name: frontend-service
         # Placeholder image tag - overwritten by Kustomize overlay or ArgoCD
         image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/placeholder-repo:latest
         ports:
