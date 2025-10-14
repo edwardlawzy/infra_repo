@@ -14,6 +14,6 @@ patches:
     name: frontend-service
 
 images:
-- name: 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-backend-repo
+- name: ${{secrets.ECR}}
   newTag: "v1.0"
 
