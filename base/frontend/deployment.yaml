@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dependency-track-frontend
+  labels:
+    app: dependency-track
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dependency-track
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: dependency-track
+        component: frontend
+    spec:
+      containers:
+      - name: frontend
+###        image:
+        ports:
+        - containerPort: 80
+        env:
+        - name: API_BASE_URL
+          value: "http://dependency-track-backend:8080"
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: default.conf
