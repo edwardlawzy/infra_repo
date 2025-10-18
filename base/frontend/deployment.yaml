@@ -19,7 +19,9 @@ spec:
     spec:
       containers:
       - name: frontend
-###        image:
+        image: 187899929694.dkr.ecr.us-east-1.amazonaws.com/edward-ecr:frontend-v1.0
+      imagePullSecrets:
+      - name: ecr-pull-secret
         ports:
         - containerPort: 80
         env:
