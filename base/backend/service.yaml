@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dependency-track-backend
+  namespace: dependency-track
   labels:
     app: dependency-track
     component: backend
