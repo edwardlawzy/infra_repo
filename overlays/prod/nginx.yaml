@@ -17,7 +17,7 @@ data:
         
         # Proxy API requests to backend SERVICE
         location /api/ {
-            proxy_pass http://dev-dependency-track-backend:8080;
+            proxy_pass http://dependency-track-backend:8080;
             
             # Preserve client information
             proxy_set_header Host $host;
