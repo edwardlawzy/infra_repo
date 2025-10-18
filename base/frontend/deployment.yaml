@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dependency-track-frontend
+  namespace: dependency-track
   labels:
     app: dependency-track
     component: frontend
