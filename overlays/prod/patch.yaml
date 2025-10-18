@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dependency-track-frontend
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: frontend
+        env:
+        - name: API_BASE_URL
+          value: "http://prod-dependency-track-backend:8080"
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: dev-nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dependency-track-backend
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: backend
+        env:
+        - name: JAVA_OPTIONS
+          value: "-Xmx512m -Xms256m -XX:+UseG1GC"
+        - name: ALPINE_DATABASE_URL
+          value: "jdbc:postgresql://prod-dependency-track-database:5432/dependencytrack"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
